@@ -692,6 +692,11 @@ table img {
   .cart-totals {
     text-align: left;
   }
+
+  /* Checlout section */
+  .checkout-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 500px) {
@@ -726,6 +731,7 @@ table img {
   /* Product Section */
   .product-section .row-desktop {
     padding: 0 !important;
+    justify-content: center;
   }
 }
 

@@ -85,18 +85,7 @@ async function loadProduct() {
         product.title
       }" width="200px" height="200px"/>
             </div>
-            <div class="position-absolute container">
-              <div
-                class="d-flex align-items-center justify-content-between pt-3"
-              >
-                <p class="best-seller rounded-pill text-center px-2 py-1">
-                  ${product.category?.name || "New"}
-                </p>
-                <p class="percentage rounded-pill text-center px-2 py-1">
-                  -${Math.floor(Math.random() * 30)}%
-                </p>
-              </div>
-            </div>
+
             <div class="card-body">
               <h5 class="card-title product-title">${product.title}</h5>
               <p class="card-text product-description">
@@ -319,4 +308,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+loadOrderSummary();
 updateCartCount();
