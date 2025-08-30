@@ -736,6 +736,10 @@ table img {
 }
 
 @media (max-width: 370px) {
+  .product-section .row-desktop {
+    padding: 0 10px !important;
+  }
+
   footer .footer-col form {
     display: flex;
     flex-direction: column;
