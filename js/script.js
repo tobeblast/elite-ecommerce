@@ -66,8 +66,6 @@ async function homePageProduct() {
   }
 }
 
-homePageProduct();
-
 // Product page displaying of images
 async function loadProduct() {
   try {
@@ -123,9 +121,7 @@ async function loadProduct() {
   }
 }
 
-// --- Init ---
-loadProduct();
-
+// Add to cart function
 function addToCart(product) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -141,6 +137,7 @@ function addToCart(product) {
   updateCartCount();
 }
 
+// Update cart count in navbar
 function updateCartCount() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
@@ -177,7 +174,7 @@ function loadCart() {
       item.title
     }" width="60"/></td>
       <td data-label="Title">${item.title}</td>
-      <td data-label="Price">$${item.price.toFixed(2)}</td>
+      <td data-label="Price">$${item.price}</td>
       <td data-label="Quantity">
         <input type="number" value="${
           item.quantity
@@ -193,8 +190,8 @@ function loadCart() {
   });
 
   // Update totals
-  subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  totalEl.textContent = `$${subtotal.toFixed(2)}`;
+  subtotalEl.textContent = `$${subtotal}`;
+  totalEl.textContent = `$${subtotal}`;
   cartCountEl.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   // Event listeners for quantity change
@@ -220,51 +217,13 @@ function loadCart() {
   });
 }
 
-// Call on page load
-loadCart();
-
-// function loadCheckoutItems() {
-//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   let orderList = document.querySelector(".order-summary ul");
-//   let total = 0;
-
-//   orderList.innerHTML = "";
-
-//   cart.forEach((item) => {
-//     let li = document.createElement("li");
-//     li.innerHTML = `
-//       <div class="d-flex align-items-center gap-2">
-//         <img src="${item.image}" alt="${
-//       item.title
-//     }" width="60" height="60" style="object-fit:cover; border-radius:8px;" />
-//         <div>
-//           <p class="mb-0 fw-bold">${item.title}</p>
-//           <small>Quantity: ${item.quantity}</small>
-//         </div>
-//       </div>
-//       <span>$${(item.price * item.quantity).toFixed(2)}</span>
-//     `;
-//     orderList.appendChild(li);
-//     total += item.price * item.quantity;
-//   });
-
-//   // Add shipping
-//   let shipping = 5;
-//   let liShipping = document.createElement("li");
-//   liShipping.innerHTML = `<span>Shipping</span> <span>$${shipping}</span>`;
-//   orderList.appendChild(liShipping);
-
-//   // Update total
-//   document.querySelector(".total").textContent = `Total: $${(
-//     total + shipping
-//   ).toFixed(2)}`;
-// }
-
+// Check Out Function
 function loadOrderSummary() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   console.log("Cart data:", cart);
   let orderItemsContainer = document.getElementById("order-items");
   let orderTotal = document.getElementById("total");
+  const placeOrderBtnEl = document.getElementById("place-order");
 
   orderItemsContainer.innerHTML = "";
   let total = 0;
@@ -298,15 +257,41 @@ function loadOrderSummary() {
 
   // Update total
   if (orderTotal) {
-    orderTotal.textContent = `Total: $${total.toFixed(2)}`;
+    orderTotal.textContent = `Total: $${total}`;
+  }
+
+  // Clear cart and order summary and redirect on place order
+  if (placeOrderBtnEl) {
+    placeOrderBtnEl.addEventListener("click", () => {
+      alert("Your order has been placed successfully");
+      localStorage.removeItem("cart"); // Clear cart
+      orderItemsContainer.innerHTML = "";
+      if (orderTotal) {
+        orderTotal.textContent = "Total: $0";
+      }
+      updateCartCount();
+      window.location.href = "../index.html"; // Redirect to home page
+    });
   }
 }
 
+// Calling of functions on page load
 document.addEventListener("DOMContentLoaded", () => {
-  if (document.querySelector(".order-summary")) {
-    loadOrderSummary(); // or loadCheckoutItems()
+  if (document.getElementById("home-page-features")) {
+    homePageProduct();
   }
-});
 
-loadOrderSummary();
-updateCartCount();
+  if (document.getElementById("product-list")) {
+    loadProduct();
+  }
+
+  if (document.getElementById("cart-items")) {
+    loadCart();
+  }
+
+  if (document.querySelector(".order-summary")) {
+    loadOrderSummary();
+  }
+
+  updateCartCount();
+});

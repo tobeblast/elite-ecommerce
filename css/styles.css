@@ -627,7 +627,8 @@ table img {
   /* Features Section */
 
   .product-section .row-desktop .feature,
-  .row-desktop .feature {
+  .row-desktop .feature,
+  .category-section .categories {
     width: 330px;
   }
 
