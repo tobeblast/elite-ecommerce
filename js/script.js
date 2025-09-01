@@ -206,8 +206,8 @@ function loadCart() {
   });
 
   // Update totals
-  subtotalEl.textContent = `$${subtotal}`;
-  totalEl.textContent = `$${subtotal}`;
+  subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+  totalEl.textContent = `$${subtotal.toFixed(2)}`;
   cartCountEl.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   // Event listeners for quantity change
@@ -250,9 +250,19 @@ function loadOrderSummary() {
   let orderItemsContainer = document.getElementById("order-items");
   let orderTotal = document.getElementById("total");
   const placeOrderBtnEl = document.getElementById("place-order");
+  const checkboxEl = document.getElementById("checkbox");
+  const shippingFormEl = document.getElementById("shipping-form");
 
   orderItemsContainer.innerHTML = "";
   let total = 0;
+
+  checkboxEl.addEventListener("change", () => {
+    if (checkboxEl.checked) {
+      shippingFormEl.style.display = "none";
+    } else {
+      shippingFormEl.style.display = "block";
+    }
+  });
 
   cart.forEach((item) => {
     let li = document.createElement("li");
@@ -283,7 +293,7 @@ function loadOrderSummary() {
 
   // Update total
   if (orderTotal) {
-    orderTotal.textContent = `Total: $${total}`;
+    orderTotal.textContent = `Total: $${total.toFixed(2)}`;
   }
 
   // Clear cart and order summary and redirect on place order

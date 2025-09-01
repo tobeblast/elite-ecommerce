@@ -403,7 +403,7 @@ nav .cart-section .cart-div:hover {
 
 .checkout-container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.8fr 1fr;
   gap: 20px;
   max-width: 1100px;
 }
@@ -414,6 +414,10 @@ nav .cart-section .cart-div:hover {
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 0 5px rgba(255, 87, 36, 0.5);
+}
+
+.order-summary {
+  height: 53%;
 }
 
 .form-section h2,
@@ -685,6 +689,10 @@ table img {
   /* Checlout section */
   .checkout-container {
     grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    height: auto;
   }
 }
 
