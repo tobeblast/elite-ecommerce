@@ -59,6 +59,14 @@ async function homePageProduct() {
         const id = e.target.getAttribute("data-id");
         const product = data.find((p) => p.id == id);
         addToCart(product);
+        if (
+          confirm(`Are you sure you want to add ${product.title} to the cart`)
+        ) {
+          alert(`${product.title} added to cart 🎉 🎉 🎉`);
+        } else {
+          alert(`${product.title} not added to cart`);
+          return;
+        }
       });
     });
   } catch (error) {
@@ -114,6 +122,14 @@ async function loadProduct() {
         const id = e.target.getAttribute("data-id");
         const product = data.find((p) => p.id == id);
         addToCart(product);
+        if (
+          confirm(`Are you sure you want to add ${product.title} to the cart`)
+        ) {
+          alert(`${product.title} added to cart 🎉 🎉 🎉`);
+        } else {
+          alert(`${product.title} not added to cart`);
+          return;
+        }
       });
     });
   } catch (error) {
@@ -210,9 +226,19 @@ function loadCart() {
     btn.addEventListener("click", (e) => {
       const index = e.target.getAttribute("data-index");
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      cart.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      loadCart();
+      const item = cart[index];
+      if (
+        confirm(`Are you sure you want to remove ${item.title} from the cart?`)
+      ) {
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        // Item removed
+        alert(`${item.title} removed from cart`);
+        loadCart();
+      } else {
+        alert("Item not removed");
+        return;
+      }
     });
   });
 }
@@ -263,7 +289,12 @@ function loadOrderSummary() {
   // Clear cart and order summary and redirect on place order
   if (placeOrderBtnEl) {
     placeOrderBtnEl.addEventListener("click", () => {
-      alert("Your order has been placed successfully");
+      if (confirm("Are you ready to place this order")) {
+        alert("Your order has been placed successfully 🎉 🎉");
+      } else {
+        alert("Your order has been canclled");
+        return;
+      }
       localStorage.removeItem("cart"); // Clear cart
       orderItemsContainer.innerHTML = "";
       if (orderTotal) {
@@ -272,6 +303,11 @@ function loadOrderSummary() {
       updateCartCount();
       window.location.href = "../index.html"; // Redirect to home page
     });
+  }
+
+  if (cart.length === 0) {
+    orderItemsContainer.innerHTML = `<p class="text-center fs-5">Your cart is empty</p>`;
+    placeOrderBtnEl.disabled = true;
   }
 }
 
